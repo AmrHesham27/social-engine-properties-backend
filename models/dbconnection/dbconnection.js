@@ -7,10 +7,4 @@ catch(e){
 } */
 
 // use this code to connect to mongo by heroku
-const options = {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    family: 4 // Use IPv4, skip trying IPv6
-  };
-mongoose.connect( process.env.MONGODB_URI, options ) 
+mongoose.connect( process.env.MONGODB_URI ) 

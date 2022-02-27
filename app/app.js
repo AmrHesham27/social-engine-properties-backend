@@ -6,7 +6,12 @@ const path = require('path')
 require("dotenv").config()
 require("../models/dbconnection/dbconnection")
 
+
 app.use(cors())
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'https://social-engine-frontend.herokuapp.com');
+    next();
+});
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 

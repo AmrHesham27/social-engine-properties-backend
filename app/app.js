@@ -7,7 +7,7 @@ require("dotenv").config()
 require("../models/dbconnection/dbconnection")
 
 const corsOptions ={
-    origin:'https://social-engine-frontend.herokuapp.com', 
+    origin:'*', 
     credentials:true,      
     optionSuccessStatus:200
 }

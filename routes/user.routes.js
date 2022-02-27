@@ -7,7 +7,6 @@ const agentType = require("../middleware/agentType")
 const {singleUpload, manyUploads} = require('../middleware/multer')
 
 // no middleware needed 
-router.get("/", ()=>{console.log("app is working")})
 router.post("/register", userController.addUser)
 router.post("/login", userController.login)
 router.post("/forgotPassword", userController.forgotPassword) 

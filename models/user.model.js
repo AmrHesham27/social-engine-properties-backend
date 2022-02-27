@@ -64,21 +64,6 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     }, 
-    addresses:[ //
-        {
-            addrType:{
-                type:String,
-                required:true
-            },
-            addrContent:{
-                type:String
-            },
-            isDefault:{
-                type:Boolean,
-                default:false
-            }
-        }
-    ],
     avatar:{ //
         type:String
     }

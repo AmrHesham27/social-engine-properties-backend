@@ -22,8 +22,5 @@
     "nodemailer": "^6.7.2",
     "otp-generator": "^4.0.0",
     "validator": "^13.7.0"
-  },
-  "engines": {
-    "node": "v16.13.2"
   }
 }

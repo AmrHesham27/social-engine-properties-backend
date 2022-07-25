@@ -95,6 +95,11 @@ userSchema.pre("save", async function(){
         user.password = await bcryptjs.hash(user.password, 12)
 })
 
+/* 
+notice here that we will use two ways to add functions to the schema, the first is (statics) and the second is (methods)
+the difference between them is the same difference in oop , statics is used on the class and methods is used on class instance (model)
+*/
+
 //login user
 userSchema.statics.loginUser = async(email,password)=>{
     const user = await User.findOne({email})

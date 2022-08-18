@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const cors = require('cors')
 const path = require('path')
+const corsOrigin = require('../middleware/cors')
 
 require("dotenv").config()
 require("../models/dbconnection/dbconnection")
@@ -17,6 +18,7 @@ app.use(express.urlencoded({extended:true}))
 
 const userRoutes = require("../routes/user.routes")
 app.use("/",userRoutes)
+app.all('*', corsOrigin);
 
 // path to get images 
 app.get('/images/:id/:ext', async(req,res)=>{

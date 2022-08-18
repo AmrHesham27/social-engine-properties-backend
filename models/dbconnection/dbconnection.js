@@ -7,4 +7,4 @@ catch(e){
 } */
 
 // use this code to connect to mongo by heroku
-mongoose.connect( process.env.MONGODB_URI, {useNewUrlParser: true} ) 
+mongoose.connect( process.env.DBURL, {useNewUrlParser: true} ) 

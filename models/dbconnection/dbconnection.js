@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
 
-// use this code to connect to mongo on your machine
-/* try{mongoose.connect(process.env.DBURL)}
-catch(e){
-    console.log(e.message)
-} */
+const dbConnect = () => {
+    mongoose.connect(process.env.MONGO_URL)
+    .then( () => console.log("DB connection is Successful!!") )
+    .catch( (err) => console.log(err) )
+}
 
-// use this code to connect to mongo by heroku
-mongoose.connect( process.env.DBURL, {useNewUrlParser: true} ) 
+module.exports = dbConnect

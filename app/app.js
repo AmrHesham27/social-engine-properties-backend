@@ -2,13 +2,14 @@ const express = require("express")
 const app = express()
 const cors = require('cors')
 const path = require('path')
-
+const dbConnect = require('../models/dbconnection/dbconnection')
 require("dotenv").config()
-require("../models/dbconnection/dbconnection")
+
+dbConnect()
 
 const corsOptions ={
-    origin:'*', 
-    credentials:true,      
+    origin:'*',
+    credentials:true,
     optionSuccessStatus:200
 }
 app.use(cors(corsOptions))

@@ -1,5 +1,5 @@
 const app = require('./app/app')
-const dbConnect = require('./models/dbconnection/dbconnection')
+const { dbConnect } = require('./models/dbconnection/dbconnection')
 
 dbConnect()
 

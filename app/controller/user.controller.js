@@ -7,6 +7,7 @@ const bcryptjs = require('bcryptjs')
 const fs = require('fs')
 const validator = require('validator')
 var macaddress = require('macaddress');
+
 class User {
     static addUser = async (req, res) => {
         try {
@@ -16,7 +17,7 @@ class User {
             user.activated = false
             await user.save()
             sendEmails(user.email, `${user.otp}`)
-            res.status(200).send({
+            res.status(201).send({
                 apiStatus: true,
                 data: user.otp, // for ease of development and should be removed later
                 message: "user was added successfully"

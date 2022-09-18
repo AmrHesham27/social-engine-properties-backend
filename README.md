@@ -8,21 +8,7 @@ It is a platform for real estate (Social Engine) where there are two types of us
 - agents : can add properties to the platform 
 - clients : can search for properties, add a property to their favourites and contact agents <br/>
 
-heroku link : https://social-engine-frontend.herokuapp.com/
-
-## How to start this project on your local machine?
-clone the respitory on your local machine then go to backEnd folder then open your terminal and type 
-```sh
-$ nodemon seedProperties.js
-```
-this will seed dump data in the database then start the backend by
-```sh
-$ nodemon index.js
-```
-then go to frontEnd folder and type in terminal 
-```sh
-$ ng serve
-```
+heroku link : https://social-engine-backend.herokuapp.com/
 
 ## APIs and Functionalities :
 there are 3 types of APIs

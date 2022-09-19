@@ -2,9 +2,7 @@ const router = require('express').Router()
 const userController = require("../app/controller/user.controller")
 const auth = require("../middleware/authUser")
 const active = require("../middleware/authUser")
-const clientType = require("../middleware/clientType")
-const agentType = require("../middleware/agentType")
-const {singleUpload, manyUploads} = require('../middleware/multer')
+const { singleUpload } = require('../middleware/multer')
 
 // no middleware needed 
 router.post("/register", userController.addUser)
@@ -31,14 +29,7 @@ router.post('/confirmChangeEmail', auth, active, userController.confirmChangeEma
 router.post("/sendMssg", auth, active, userController.sendMssg) 
 router.post("/getMssgs", auth, active, userController.getMssgs)
 
-// client only routes 
-router.post("/addFavProp", auth, clientType, active, userController.addFavProp) 
-router.delete("/deleteFavProp/:id", auth, clientType, active, userController.deleteFavProp)
-router.get("/showAllFav", auth, clientType, active, userController.showAllFav) 
-
-// agent only routes
-router.post("/showMyProperties", auth, agentType, active, userController.showMyProperties)
-router.post("/addProperty", auth, agentType, active, manyUploads, userController.addProperty)
-router.delete("/deleteProperty/:id", auth, agentType, active, userController.deleteProperty)
-
-module.exports = router
+module.exports = {
+    path: '',
+    router
+}

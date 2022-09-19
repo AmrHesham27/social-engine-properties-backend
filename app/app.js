@@ -1,5 +1,5 @@
 const express = require("express")
-const app = express()
+const app = require('../routes/index')
 const cors = require('cors')
 const path = require('path')
 require("dotenv").config()
@@ -12,9 +12,6 @@ const corsOptions ={
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
-const userRoutes = require("../routes/user.routes")
-app.use("/",userRoutes)
 
 // path to get images 
 app.get('/images/:id/:ext', async(req,res)=>{

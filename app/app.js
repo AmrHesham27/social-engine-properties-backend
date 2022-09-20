@@ -1,12 +1,12 @@
 const express = require("express")
-const app = require('../routes/index')
 const cors = require('cors')
 const path = require('path')
 const passport = require('passport');
-const { Strategy } = require('passport-google-oauth20');
 const helmet = require("helmet");
 const cookieSession = require("cookie-session");
 require("dotenv").config()
+
+const app = express()
 
 const corsOptions ={
     origin:'*',
@@ -19,28 +19,6 @@ app.use(express.urlencoded({extended:true}))
 
 // security
 app.use(helmet());
-
-const AUTH_GOOGLE_OPTIONS = {
-    callbackURL: '/auth/google/callback',
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET
-}
-
-function verifyCallback(accessToken, refreshToken, profile, done) {
-    done(null, profile);
-}
-
-passport.use(new Strategy(AUTH_GOOGLE_OPTIONS, verifyCallback));
-
-passport.serializeUser((user, done) => {
-    done(null, user);
-})
-
-passport.deserializeUser((obj, done) => {
-    done(null, obj)
-})
-
-
 app.use(cookieSession({
     name: 'session',
     maxAge: 24 * 60 * 60 * 1000,
@@ -50,22 +28,6 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session())
 
-app.get('/auth/google', passport.authenticate('google', {
-    scope: ['email']
-}))
-
-app.get('/auth/google/callback', passport.authenticate('google', {
-    failureRedirect: '/failure',
-    successRedirect: '/home',
-    session: true
-}), (req, res) => {
-    console.log('Google called us back!')
-})
-
-app.get('/auth/logout', (req, res) => { 
-    req.logout();
-    return res.redirect('/')
-})
 
 // path to get images 
 app.get('/images/:id/:ext', async(req,res)=>{

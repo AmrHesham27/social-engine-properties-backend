@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "test-watch": "jest --watch --detectOpenHandles",
-    "start": "pm2-runtime start ecosystem.config.js --env production"
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",

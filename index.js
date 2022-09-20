@@ -1,4 +1,4 @@
-const app = require('./app/app')
+const app = require('./routes/index')
 const { dbConnect } = require('./models/dbconnection/dbconnection')
 
 dbConnect()

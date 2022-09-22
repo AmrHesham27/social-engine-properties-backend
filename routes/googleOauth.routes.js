@@ -1,6 +1,7 @@
 const passport = require('passport');
 const { Strategy } = require('passport-google-oauth20');
 const router = require('express').Router()
+const userModel = require('../models/user.model')
 
 const AUTH_GOOGLE_OPTIONS = {
     callbackURL: '/auth/google/callback',
@@ -8,7 +9,13 @@ const AUTH_GOOGLE_OPTIONS = {
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
 }
 
-function verifyCallback(accessToken, refreshToken, profile, done) {
+async function verifyCallback(accessToken, refreshToken, profile, done) {    
+    const email = profile._json.email
+    await userModel.findOneAndUpdate(
+        { email },
+        { $set: { email } },
+        { upsert: true, new: true }
+    )
     done(null, profile);
 }
 

@@ -4,6 +4,8 @@ const propertyModel = require("../../models/property.model")
 class Client extends User {
     static addFavProp = async(req, res)=>{
         try{
+            this.checkErrors()
+
             let user = req.user
             let propId = req.body.propId
             let property = await propertyModel.findOne({_id:propId})
@@ -36,6 +38,8 @@ class Client extends User {
     }
     static deleteFavProp = async(req, res)=>{
         try{
+            this.checkErrors()
+            
             let user = req.user
             let propId = req.params.id
             user.favourites = user.favourites.filter(i => i != propId)

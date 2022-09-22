@@ -7,8 +7,16 @@ const bcryptjs = require('bcryptjs')
 const fs = require('fs')
 const validator = require('validator')
 var macaddress = require('macaddress');
+const { validationResult } = require('express-validator');
 
 class User {
+    static checkErrors = () => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+    }
+
     static addUser = async (req, res) => {
         try {
             let user = new userModel({

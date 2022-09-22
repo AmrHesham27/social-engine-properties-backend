@@ -1,12 +1,12 @@
 const router = require('express').Router()
-const userController = require("../app/controller/user.controller")
+const clientController = require("../app/controller/client.controller")
 const auth = require("../middleware/authUser")
 const active = require("../middleware/authUser")
 const clientType = require("../middleware/clientType")
 
-router.post("/addFavProp", auth, clientType, active, userController.addFavProp) 
-router.delete("/deleteFavProp/:id", auth, clientType, active, userController.deleteFavProp)
-router.get("/showAllFav", auth, clientType, active, userController.showAllFav) 
+router.post("/addFavProp", auth, clientType, active, clientController.addFavProp) 
+router.delete("/deleteFavProp/:id", auth, clientType, active, clientController.deleteFavProp)
+router.get("/showAllFav", auth, clientType, active, clientController.showAllFav) 
 
 module.exports = {
     path: '',

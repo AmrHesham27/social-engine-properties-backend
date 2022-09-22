@@ -11,7 +11,13 @@ var macaddress = require('macaddress');
 class User {
     static addUser = async (req, res) => {
         try {
-            let user = new userModel(req.body)
+            let user = new userModel({
+                name: req.body.name,
+                phoneNumber: req.body.phoneNumber,
+                password: req.body.password,
+                userType: req.body.userType,
+                email: req.body.email
+            })
             // create otp and send it ,, and set the activated status of the user to false
             user.otp = otpGenerator.generate(12);
             user.activated = false
@@ -320,102 +326,6 @@ class User {
         }
         catch(e){
             res.status(500).send({apiStatus:false, data:e.message, message:`could not fetch data`})
-        }
-    }
-    /********** client functions ***********/  
-    static addFavProp = async(req, res)=>{
-        try{
-            let user = req.user
-            let propId = req.body.propId
-            let property = await propertyModel.findOne({_id:propId})
-            if(!property) throw new Error('could not find this prop')
-            // did user liked this property before?
-            if(user.favourites.includes(propId)){ 
-                res.status(200).send({apiStatus:true, data:user, message:"user already like this property"})
-            }
-            else {
-                property.noOfFav += 1
-                user.favourites.push(propId)
-                await property.save()
-                await user.save()
-                res.status(200).send({apiStatus:true, data:propId, message:"favourite property was added"})
-            }
-        }
-        catch(e){
-            res.status(500).send({apiStatus:false, data:e.message, message:"could not add favourite property"})
-        }
-    }
-    static showAllFav = async(req, res)=>{
-        try{
-            let userAllFav = req.user.favourites
-            let properties = await propertyModel.find({_id: userAllFav })
-            res.status(200).send({apiStatus:true, data:properties, message:"favourites were fetched"})
-        }
-        catch(e){
-            res.status(500).send({apiStatus:false, data:e.message, message:"could not add fetch favourites"})
-        }
-    }
-    static deleteFavProp = async(req, res)=>{
-        try{
-            let user = req.user
-            let propId = req.params.id
-            user.favourites = user.favourites.filter(i => i != propId)
-            await user.save()
-            res.status(200).send({apiStatus:true, data: user, message:"favourite property was deleted"})
-        }
-        catch(e){
-            res.status(500).send({apiStatus:false, data:e.message, message:"could not delete favourite property"})
-        }
-    }
-    /********** agent functions **********/
-    static addProperty = async(req, res) => {
-        try{ 
-            let newProperty
-            if(req.files){
-                let allImages = Object.values(req.files)
-                let avatarPath = allImages.filter(i => {return i[0]['fieldname'] == 'avatar'})[0][0]['path']
-                let galleryArray = allImages.filter(i => {return i[0]['fieldname'] == 'gallery'})[0]
-                console.log(galleryArray)
-                let galleryPaths = galleryArray ? galleryArray.map(i => i['path']) : []
-                newProperty = new propertyModel({
-                    ...req.body, // all text fields
-                    avatar: avatarPath,
-                    gallery: galleryPaths,
-                    agentId: req.user._id
-                })
-            }
-            else {
-                newProperty = new propertyModel({
-                    ...req.body,
-                    agentId: req.user._id
-                })
-            }
-            await newProperty.save()
-            res.status(200).send({apiStatus:true, data:newProperty, message:"new property was added"})
-        }
-        catch(e){
-            res.status(500).send({apiStatus:false, data:e.message, message:"could not add new property"})
-        }
-    }
-    static deleteProperty = async(req, res)=>{
-        try{
-            let user = req.user
-            let propId = req.params.id
-            await propertyModel.deleteOne({_id:propId})
-            res.status(200).send({apiStatus:true, data: user, message:"property was deleted"})
-        }
-        catch(e){
-            res.status(500).send({apiStatus:false, data:e.message, message:"could not delete property"})
-        }
-    }
-    static showMyProperties = async(req, res) => {
-        try{
-            let user = req.user
-            await user.populate("agentProps")
-            res.status(200).send({apiStatus:true, data:user.agentProps, message:"properties were fetched"})
-        }
-        catch(e){
-            res.status(500).send({apiStatus:false, data:e.message, message:"could not fetch properties"})
         }
     }
 }

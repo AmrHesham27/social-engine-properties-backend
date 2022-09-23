@@ -1,8 +1,12 @@
 const express = require("express")
-const app = require('../routes/index')
 const cors = require('cors')
 const path = require('path')
+const passport = require('passport');
+const helmet = require("helmet");
+const cookieSession = require("cookie-session");
 require("dotenv").config()
+
+const app = express()
 
 const corsOptions ={
     origin:'*',
@@ -12,6 +16,18 @@ const corsOptions ={
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+// security
+app.use(helmet());
+app.use(cookieSession({
+    name: 'session',
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY_1],
+}))
+
+app.use(passport.initialize());
+app.use(passport.session())
+
 
 // path to get images 
 app.get('/images/:id/:ext', async(req,res)=>{

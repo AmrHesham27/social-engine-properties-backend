@@ -2,9 +2,9 @@
     you just add new file in this folder */
 
 const express = require('express')
-const fs = require('fs')
+const fs = require('fs');
 
-const app = express()
+const app = require('../app/app.js')
 
 fs.readdirSync(__dirname).forEach(file => {
     if (file === "index.js") return

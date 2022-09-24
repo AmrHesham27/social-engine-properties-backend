@@ -11,7 +11,9 @@ const AUTH_GOOGLE_OPTIONS = {
 
 async function verifyCallback(accessToken, refreshToken, profile, done) {    
     const email = profile._json.email
-    await userModel.findOrCreate({ email }, { email, registerType: 'google' })
+    await userModel.findOrCreate({ email }, { email, registerType: 'google' }, (err, result) => {
+        //console.log(err)
+    })
     done(null, profile);
 }
 

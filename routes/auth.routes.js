@@ -29,6 +29,11 @@ router.post('/confirmChangeEmail', auth, active, userController.confirmChangeEma
 router.post("/sendMssg", auth, active, userController.sendMssg) 
 router.post("/getMssgs", auth, active, userController.getMssgs)
 
+/* router.get("/aaa", (req,res) => {
+    console.log(req.user)
+    res.status(200).send({apiStatus:true, message:"user already like this property"})
+}) */
+
 module.exports = {
     path: '',
     router

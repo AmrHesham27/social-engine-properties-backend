@@ -20,15 +20,13 @@ class User {
     static addUser = async (req, res) => {
         try {
             let user = new userModel({
-                name: req.body.name,
-                phoneNumber: req.body.phoneNumber,
+                email: req.body.email,
                 password: req.body.password,
+                confirmedPassword: req.body.confirmedPassword,
                 userType: req.body.userType,
-                email: req.body.email
             })
             // create otp and send it ,, and set the activated status of the user to false
             user.otp = otpGenerator.generate(12);
-            user.activated = false
             await user.save()
             sendEmails(user.email, `${user.otp}`)
             res.status(201).send({
@@ -335,6 +333,20 @@ class User {
         catch(e){
             res.status(500).send({apiStatus:false, data:e.message, message:`could not fetch data`})
         }
+    }
+
+    /* activate google and facebook users, by entering his type (client or agent)
+    after signing in for the first time */
+    static activateOauth = async (req, res) => {
+        try {
+            if( !req.body.userType ) throw new Error('user type is required')
+            const email = req.user._json.email
+            await userModel.findOneAndUpdate({ email }, { activated: true, userType: req.body.userType })
+            res.status(200).send({apiStatus:true, message:`user was activated`})
+        }
+        catch(e){
+            res.status(500).send({apiStatus:false, data:e.message, message:`could not set the type`})
+        }        
     }
 }
 module.exports = User

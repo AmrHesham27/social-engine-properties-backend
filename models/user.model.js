@@ -1,28 +1,26 @@
 const mongoose = require("mongoose")
 const validator = require('validator')
 const bcryptjs = require("bcryptjs")
+const findOrCreate = require('mongoose-find-or-create')
+
 const userSchema = new mongoose.Schema({
     userType:{
         type:String,
         trim:true,
         enum:[ 'client', 'agent'],
-        required:true,
     },
     name:{ //
         type:String,
         trim:true,
-        required:true
     },
     password:{
         type:String,
         minlength:6,
         trim:true,
-        required:true
     },
     email:{ //
         type:String,
         trim:true,
-        required:true,
         unique:true,
         validate(value){
             if(!validator.isEmail(value)) throw new Error("invalid email format")
@@ -36,7 +34,6 @@ const userSchema = new mongoose.Schema({
         type:String,
         trim:true,
         unique:true,
-        required:true,
         validate(value){
             if(!validator.isMobilePhone(value,"ar-EG")) throw new Error('invalid phone number')
         }
@@ -64,6 +61,11 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     }, 
+    registerType:{
+        type:String,
+        enum:[ 'token', 'google', 'facebook'],
+        default: 'token'
+    },
     avatar:{ //
         type:String
     }
@@ -119,5 +121,9 @@ userSchema.methods.generateToken = async function(){
     await user.save()
     return token
 }
+
+// find or create
+userSchema.plugin(findOrCreate)
+
 const User = mongoose.model("User", userSchema)
 module.exports = User

@@ -11,11 +11,7 @@ const AUTH_GOOGLE_OPTIONS = {
 
 async function verifyCallback(accessToken, refreshToken, profile, done) {    
     const email = profile._json.email
-    await userModel.findOneAndUpdate(
-        { email },
-        { $set: { email } },
-        { upsert: true, new: true }
-    )
+    await userModel.findOrCreate({ email }, { email, registerType: 'google' })
     done(null, profile);
 }
 

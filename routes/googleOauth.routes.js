@@ -11,10 +11,13 @@ const AUTH_GOOGLE_OPTIONS = {
 
 async function verifyCallback(accessToken, refreshToken, profile, done) {    
     const email = profile._json.email
-    await userModel.findOrCreate({ email }, { email, registerType: 'google' }, (err, result) => {
-        //console.log(err)
+    await userModel.findOrCreate({ email }, { 
+        email, 
+        registerType: 'google', 
+        userType: 'client', 
+        activated: true 
     })
-    done(null, profile);
+    done(null, profile)
 }
 
 passport.use(new Strategy(AUTH_GOOGLE_OPTIONS, verifyCallback));

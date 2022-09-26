@@ -12,8 +12,12 @@ const AUTH_FACEBOOK_OPTIONS = {
 
 async function verifyCallback(accessToken, refreshToken, profile, done) {    
     const email = profile._json.email
-    await userModel.findOrCreate({ email }, { email, registerType: 'facebook' })
-    console.log(profile)
+    await userModel.findOrCreate({ email }, { 
+        email, 
+        registerType: 'facebook', 
+        userType: 'client', 
+        activated: true 
+    })
     done(null, profile);
 }
 

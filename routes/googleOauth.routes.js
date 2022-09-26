@@ -11,13 +11,20 @@ const AUTH_GOOGLE_OPTIONS = {
 
 async function verifyCallback(accessToken, refreshToken, profile, done) {    
     const email = profile._json.email
-    await userModel.findOrCreate({ email }, { 
-        email, 
-        registerType: 'google', 
-        userType: 'client', 
-        activated: true 
-    })
-    done(null, profile)
+
+    const isAgent = await userModel.find({email, userType: 'agent'})
+    if (isAgent) {
+        done('Agents can not sign in with social media accounts', null)
+    }
+    else {
+        await userModel.findOrCreate({ email }, { 
+            email, 
+            registerType: 'google', 
+            userType: 'client', 
+            activated: true 
+        })
+        done(null, profile)
+    }
 }
 
 passport.use(new Strategy(AUTH_GOOGLE_OPTIONS, verifyCallback));

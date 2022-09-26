@@ -13,7 +13,7 @@ async function verifyCallback(accessToken, refreshToken, profile, done) {
     const email = profile._json.email
 
     const isAgent = await userModel.find({email, userType: 'agent'})
-    if (isAgent) {
+    if (isAgent.length) {
         done('Agents can not sign in with social media accounts', null)
     }
     else {
@@ -22,7 +22,8 @@ async function verifyCallback(accessToken, refreshToken, profile, done) {
             registerType: 'google', 
             userType: 'client', 
             activated: true 
-        })
+        },
+        (err, result) => {})
         done(null, profile)
     }
 }

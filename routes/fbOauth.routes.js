@@ -14,7 +14,8 @@ async function verifyCallback(accessToken, refreshToken, profile, done) {
     const email = profile._json.email
     
     let isAgent = await userModel.find({email, userType: 'agent'})
-    if (isAgent) {
+    if (isAgent.length) {
+        console.log(isAgent)
         done(new Error('Agents can not sign in with social media accounts'), null)
     }
     else {
@@ -23,7 +24,8 @@ async function verifyCallback(accessToken, refreshToken, profile, done) {
             registerType: 'facebook', 
             userType: 'client', 
             activated: true 
-        })
+        }, 
+        (err, result) => {})
         done(null, profile);
     }
 }
